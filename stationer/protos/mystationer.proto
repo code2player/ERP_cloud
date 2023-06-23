@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package stationerspace;
+
+message StationerId {
+    string stationer_id_ = 1;
+}
+
+//请求的通用回复格式，便于复用
+message BaseReply2 {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+}
+
+message StationId {
+    string station_id_ = 1;
+}
+
+message SaveOrder {
+    string order_id_ = 1;
+    string input_time_ = 2;
+}
+
+message SaveOrderList {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    repeated SaveOrder order_list_ = 3;
+}
+
+//transport_description字段的内容在server拼接
+message InStationRequest {
+    string stationer_id_ = 1;
+    string order_id_ = 2;
+    string station_id_ = 3;
+}
+
+message OutStationRequest {
+    string stationer_id_ = 1;
+    string order_id_ = 2;
+    string station_id_ = 3;
+    string next_address_ = 4;
+}
+
+message StationerInfo {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    string stationer_id_ = 3;
+    string station_id_ = 4;
+    string stationer_name = 5;
+}
+
+//设计思想是尽可能的将操作原子化，对复杂的业务逻辑进行解耦合
+service StationerOrder {
+//get message
+    rpc GetStationOrderList(StationId) returns (SaveOrderList); //站点获取仓库中包裹列表
+    rpc GetStationerInfo(StationerId) returns (StationerInfo);
+
+//post message, server端更新多个对应表单
+    rpc InStation(InStationRequest) returns (BaseReply2); //入库
+    rpc OutStation(OutStationRequest) returns (BaseReply2); //出库
+}

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+//所有普通用户和server通信所用到的协议
+//get orderlist的时候就把所有order的detail传过来，详细detail暂时不显示即可
+//itemlist也随着detail显示即可，起一个单独的窗口
+//少写几个protobuf，不然每次都要生成好几个源文件很麻烦
+//考虑在之后的所有协议都写在这里，然后按需引用即可，感觉会是一个比较简单的方法
+//设计协议的过程同时也是构建类图通信的过程
+
+//在server端会有多表联合查询的可能性:name和id的关系
+
+//总之这部分是高频查询/更新区域，考虑对应加锁和加索引
+
+//user_id用18位身份证啊我是zz吗？？？？？？
+//自增个锤子
+
+//部分数据上传时直接空边，由服务器计算
+
+package userspace;
+
+message UserId {
+    string user_phone_ = 1;
+}
+
+//item：往往是类别，例如食物、动物、危险物品等分类
+message OrderItem {
+    string item_id_ = 1;
+    string item_name_ = 2;
+    string item_price_ = 3;
+    string item_description_ = 4;
+    int32 item_number_ = 5;
+}
+
+message OrderDetail {
+    string order_id_ = 1; //服务器计算：最好是一串sha512之类的
+    string order_sender_id_ = 2;
+    string order_receiver_id_ = 3;
+    string order_start_address_ = 4;
+    string order_end_address_ = 5;
+    string order_money_ = 6; //服务器计算
+    string order_time_ = 7; //服务器计算
+    string order_status_ = 8; //服务器计算
+    string order_description_ = 9;
+    repeated OrderItem item_info_ = 10;
+}
+
+message OrderList {
+    bool return_result_ = 1;
+    repeated OrderDetail order_sender_list_ = 2;
+    repeated OrderDetail order_receiver_list_ = 3;
+}
+
+//为了防止丢失精度导致的货币面额丢失，以string形式从数据库中传入，不再额外写一个类
+//item和station等内容的添加由dba完成即可，本系统中不设修改途径
+//构建很多自动化数据进行测试（例如1000个user，10000个站点和100000个order）
+//为了测试，去写对应的批处理脚本.sh
+
+//关于性能测试，可以有以下角度
+//以数据可视化为基准，集群外与部署在集群中的性能对比，1pod与多个pod性能对比
+
+message UpdateOrderStateRequest {
+    string order_id_ = 1;
+    string order_status_ = 2;
+}
+
+//请求的通用回复格式，便于复用
+message BaseReply {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+}
+
+message OrderId {
+    string order_id_ = 1;
+}
+
+message OrderTransport {
+    string transport_time_ = 1;
+    string transport_description_ = 2;
+}
+
+message SpecificOrder{
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    repeated OrderTransport transport_list_ = 3;
+    repeated OrderItem item_list_ = 4;
+}
+
+//OrderDetail等已经实现的定义暂时不修改（因为是双向的，且数据来源不同），实际返回时不填充对应数据段即可
+
+service UserOrder {
+//get message
+    rpc GetOrderList(UserId) returns (OrderList); //包含detail
+    rpc GetSpecificOrder(OrderId) returns (SpecificOrder); 
+
+//post message
+    rpc CreateOrder(OrderDetail) returns (BaseReply); //寄件
+    rpc UpdateOrderState(UpdateOrderStateRequest) returns (BaseReply); //确认收件
+}

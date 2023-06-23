@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: register-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: register-app
+  template:
+    metadata:
+      labels:
+        app: register-app
+    spec:
+      containers:
+      - name: register-app
+        image: registry.cn-hangzhou.aliyuncs.com/xpf_images/my_log_system:register
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50051
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: register-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 13301
+    targetPort: 50051
+    nodePort: 30001
+  selector:
+    app: register-app

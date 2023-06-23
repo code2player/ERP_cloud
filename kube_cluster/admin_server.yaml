@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: admin-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-app
+  template:
+    metadata:
+      labels:
+        app: admin-app
+    spec:
+      containers:
+      - name: admin-app
+        image: registry.cn-hangzhou.aliyuncs.com/xpf_images/my_log_system:admin
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50055
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 13305
+    targetPort: 50055
+    nodePort: 30005
+  selector:
+    app: admin-app

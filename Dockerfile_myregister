@@ -1,0 +1,20 @@
+FROM ubuntu:20.04
+
+COPY lib/libprotobuf.so.23 lib/libgrpc++.so.1 lib/libgrpc++_reflection.so.1 \
+ lib/libgpr.so.6 lib/libgrpc.so.6 lib/libglog.so.1 /usr/local/lib/
+
+COPY lib/libssl.so.1.1 lib/libcrypto.so.1.1 lib/libmysqlclient.so.21 lib/libresolv.so.2 lib/libgflags.so.2.2 /lib/x86_64-linux-gnu/
+
+RUN  mkdir /usr/src/myapp
+
+COPY register/register_server /usr/src/myapp
+
+WORKDIR /usr/src/myapp
+
+EXPOSE 50051
+
+EXPOSE 3306
+
+RUN  ldconfig
+
+CMD ["./register_server"]

@@ -1,0 +1,34 @@
+cp /usr/local/lib/libprotobuf.so.23 lib/
+cp /usr/local/lib/libgrpc++.so.1 lib/
+cp /usr/local/lib/libgrpc++_reflection.so.1 lib/
+cp /usr/local/lib/libgpr.so.6 lib/
+cp /usr/local/lib/libgrpc.so.6 lib/
+cp /lib/x86_64-linux-gnu/libssl.so.1.1 lib/
+cp /lib/x86_64-linux-gnu/libcrypto.so.1.1 lib/
+
+
+cp /lib/x86_64-linux-gnu/libmysqlclient.so.21 lib/
+cp /usr/local/lib/libglog.so.1 lib/
+cp /lib/x86_64-linux-gnu/libresolv.so.2 lib/
+cp /lib/x86_64-linux-gnu/libgflags.so.2.2 lib/
+
+
+
+
+ossutil cp oss://xpfbucket/libprotobuf.so.23 .
+ossutil cp oss://xpfbucket/libgrpc++.so.1 .
+ossutil cp oss://xpfbucket/libgrpc++_reflection.so.1 .
+ossutil cp oss://xpfbucket/libgpr.so.6 .
+ossutil cp oss://xpfbucket/libgrpc.so.6 .
+ossutil cp oss://xpfbucket/libglog.so.1 .
+
+
+ossutil cp oss://xpfbucket/libssl.so.1.1 .
+ossutil cp oss://xpfbucket/libcrypto.so.1.1 .
+ossutil cp oss://xpfbucket/libmysqlclient.so.21 .
+ossutil cp oss://xpfbucket/libresolv.so.2 .
+ossutil cp oss://xpfbucket/libgflags.so.2.2 .
+
+
+
+

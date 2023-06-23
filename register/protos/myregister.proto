@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+//注册时不需要提供id，系统分配，作为主键
+//后续使用phone登录
+
+package registerspace;
+
+message UserRegisterRequest {
+    string user_phone_ = 1;
+    string user_password_ = 2;
+    string user_name_ = 3;
+    string user_identity_ = 4;
+    string user_secertkey_ = 5;
+    string staff_station_ = 6;
+}
+
+message UserRegisterReply {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+}
+
+service MyRegister {
+    rpc UserRegister(UserRegisterRequest) returns (UserRegisterReply);
+}

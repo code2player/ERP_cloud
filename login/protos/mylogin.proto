@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+//注册时不需要提供id，系统分配，作为主键
+//后续使用phone登录
+
+package loginspace;
+
+message UserLoginRequest {
+    string user_phone_ = 1;
+    string user_password_ = 2;
+    string user_identity_ = 3;
+}
+
+message UserLoginReply {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+}
+
+service MyLogin {
+    rpc UserLogin(UserLoginRequest) returns (UserLoginReply);
+}

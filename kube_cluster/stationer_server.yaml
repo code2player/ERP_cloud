@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: stationer-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stationer-app
+  template:
+    metadata:
+      labels:
+        app: stationer-app
+    spec:
+      containers:
+      - name: stationer-app
+        image: registry.cn-hangzhou.aliyuncs.com/xpf_images/my_log_system:stationer
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50054
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stationer-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 13304
+    targetPort: 50054
+    nodePort: 30004
+  selector:
+    app: stationer-app

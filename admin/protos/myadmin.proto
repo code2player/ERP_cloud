@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package adminspace;
+
+//be careful, the character set may be mixed so just use English to write this file
+
+message AdminId {
+    string admin_id_ = 1;
+}
+
+message ItemInfo {
+    string item_id_ = 1;
+    string item_name_ = 2;
+    string item_price_ = 3;
+    string item_description_ = 4;
+    string admin_id_ = 5;
+}
+
+message AllItemList {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    repeated ItemInfo item_info_ = 3;
+}
+
+message StationInfo {
+    string station_id_ = 1;
+    string station_name_ = 2;
+    string station_position_ = 3;
+    string station_description_ = 4;
+    string admin_id_ = 5;
+}
+
+message AllStationList {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    repeated StationInfo station_info_ = 3;
+}
+
+message OrderInfo {
+    string order_id_ = 1;
+    string order_sender_id_ = 2;
+    string order_receiver_id_ = 3;
+    string order_start_address_ = 4;
+    string order_end_address_ = 5;
+    string order_money_ = 6;
+    string order_time_ = 7;
+    string order_status_ = 8;
+    string order_description_ = 9;
+    string admin_id_ = 10;
+}
+
+message AllOrderList {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+    repeated OrderInfo order_info_ = 3;
+}
+
+message BaseReply3 {
+    bool return_result_ = 1;
+    string return_message_ = 2;
+}
+
+service AdminService {
+//get message
+    rpc GetAllItemList(AdminId) returns (AllItemList);
+    rpc GetAllStationList(AdminId) returns (AllStationList);
+    rpc GetAllOrderList(AdminId) returns (AllOrderList);
+
+//post message
+    rpc AddItem(ItemInfo) returns (BaseReply3);
+    rpc DelItem(ItemInfo) returns (BaseReply3);
+    rpc AddStation(StationInfo) returns (BaseReply3);
+    rpc DelStation(StationInfo) returns (BaseReply3);
+    rpc UpdateOrder(OrderInfo) returns (BaseReply3);
+}

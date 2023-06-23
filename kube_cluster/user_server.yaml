@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: user-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-app
+  template:
+    metadata:
+      labels:
+        app: user-app
+    spec:
+      containers:
+      - name: user-app
+        image: registry.cn-hangzhou.aliyuncs.com/xpf_images/my_log_system:user
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50053
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 13303
+    targetPort: 50053
+    nodePort: 30003
+  selector:
+    app: user-app

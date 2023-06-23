@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: login-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: login-app
+  template:
+    metadata:
+      labels:
+        app: login-app
+    spec:
+      containers:
+      - name: login-app
+        image: registry.cn-hangzhou.aliyuncs.com/xpf_images/my_log_system:login
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50052
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 13302
+    targetPort: 50052
+    nodePort: 30002
+  selector:
+    app: login-app
