@@ -1,4 +1,4 @@
-本文件对源代码文件进行了相关的解析与介绍，相关代码按照功能逻辑划分，主要分为4个部分。
+本文件对server端的源代码文件进行了相关的解析与介绍，server端相关代码按照功能划分，主要分为3个部分。
 
 （1）微服务程序编译：
 Makefile：顶层makefile，进入所有需要构建的文件夹，调用对应子文件夹下的makefile进行构建和删除操作。
@@ -24,9 +24,6 @@ benchmark_test：基于以上模拟的测试数据，进行大量数据单元测
 lib：存放制作微服务镜像时需要导入的库文件。
 kube_cluster：存放需要部署在kubernetes集群中的.yaml配置文件。
 Dockerfile_*：共有5个文件，分别对应文件名相关的微服务，通过执行该文件制作微服务镜像。
-
-（4）客户端程序
-client：客户端的文件，包括ui文件、业务逻辑和协议，需要在有效环境下编译，建议使用vcpkg配置环境。
 
 /*创建镜像并push到内网仓示例*/
 docker build -f ./Dockerfile_myadmin -t registry.cn-hangzhou.aliyuncs.com/xxx_images/my_log_system:admin .
