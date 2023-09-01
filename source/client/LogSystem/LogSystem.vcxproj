@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{60DB5879-80FD-4A8C-8304-031E2229224C}</ProjectGuid>
+    <Keyword>QtVS_v302</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>5.13.1</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>5.13.1</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\protocol\myadmin.grpc.pb.cc" />
+    <ClCompile Include="..\protocol\myadmin.pb.cc" />
+    <ClCompile Include="..\protocol\mylogin.grpc.pb.cc" />
+    <ClCompile Include="..\protocol\mylogin.pb.cc" />
+    <ClCompile Include="..\protocol\myregister.grpc.pb.cc" />
+    <ClCompile Include="..\protocol\myregister.pb.cc" />
+    <ClCompile Include="..\protocol\mystationer.grpc.pb.cc" />
+    <ClCompile Include="..\protocol\mystationer.pb.cc" />
+    <ClCompile Include="..\protocol\myuser.grpc.pb.cc" />
+    <ClCompile Include="..\protocol\myuser.pb.cc" />
+    <ClCompile Include="AdminMainWindow.cpp" />
+    <ClCompile Include="LoginWindow.cpp" />
+    <ClCompile Include="LogSystem.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="RegisterWindow.cpp" />
+    <ClCompile Include="StartPage.cpp" />
+    <ClCompile Include="StationerMainWindow.cpp" />
+    <ClCompile Include="UserCreateOrderWindow.cpp" />
+    <ClCompile Include="UserMainWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="LogSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="AdminMainWindow.ui" />
+    <QtUic Include="LoginWindow.ui" />
+    <QtUic Include="LogSystem.ui" />
+    <QtUic Include="RegisterWindow.ui" />
+    <QtUic Include="StartPage.ui" />
+    <QtUic Include="StationerMainWindow.ui" />
+    <QtUic Include="UserCreateOrderWindow.ui" />
+    <QtUic Include="UserMainWindow.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="LogSystem.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="LoginWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="RegisterWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="StartPage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\protocol\myadmin.grpc.pb.h" />
+    <ClInclude Include="..\protocol\myadmin.pb.h" />
+    <ClInclude Include="..\protocol\mylogin.grpc.pb.h" />
+    <ClInclude Include="..\protocol\mylogin.pb.h" />
+    <ClInclude Include="..\protocol\myregister.grpc.pb.h" />
+    <ClInclude Include="..\protocol\myregister.pb.h" />
+    <ClInclude Include="..\protocol\mystationer.grpc.pb.h" />
+    <ClInclude Include="..\protocol\mystationer.pb.h" />
+    <ClInclude Include="..\protocol\myuser.grpc.pb.h" />
+    <ClInclude Include="..\protocol\myuser.pb.h" />
+    <QtMoc Include="AdminMainWindow.h" />
+    <ClInclude Include="resource.h" />
+    <QtMoc Include="StationerMainWindow.h" />
+    <ClInclude Include="SystemDefine.h" />
+    <QtMoc Include="UserCreateOrderWindow.h" />
+    <QtMoc Include="UserMainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LogSystem.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
