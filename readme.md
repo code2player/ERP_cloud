@@ -44,6 +44,8 @@
 
 K8s的集群配置分为1.23和1.26两个版本，1.26存在着许多离谱的行为和坑，是哥们自己一点一点搞出来的，建议还是选用更加成熟的版本，起码遇到问题比较方便解决。
 
+Update: [K8s集群1.26版本配置](https://www.cnblogs.com/kazusarua/p/17776375.html)
+
 gRPC和protobuf的版本冲突非常离谱（特指Windows平台下），根本手动cmake不出来，个人建议使用vcpkg，直接official解决所有问题。
 
 ## References
